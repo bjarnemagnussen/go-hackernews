@@ -1,0 +1,49 @@
+{{template "base" .}}
+
+{{define "title"}}Newest{{end}}
+{{define "body"}}
+    {{if .Posts}}
+        <article class="site-content-dense">
+        <table border="0" cellpadding="0" cellspacing="0" class="item-list outer level-0">
+        {{$n := len .Posts}}
+        {{range $i, $p := .Posts}}
+                <tr>
+                    <td rowspan="2">{{add $.StartRank $i}}.</td>
+                    {{/* TODO: Would be better if voting can be moved to post.partial.tmpl (problem parsing in CSRFToken) */}}
+                    <td rowspan="2">
+                        <div>
+                            {{if not $.IsAuthenticated}}
+                            <form method="GET" action="/user/login">
+                            <input type="hidden" name="goto" value="items/{{.ID}}">
+                            <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+                            </form>
+                            {{else if eq .Votable 0}}
+                            &nbsp;
+                            {{else if eq .Votable 2}}
+                            <span class="self-item">*</span>
+                            {{else}}
+                            <form class="vote-form upvote" method="POST" action="/items/{{.ID}}/upvote">
+                            <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+                            <input type="hidden" name="goto" value="items/{{.ID}}">
+                            <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+                            </form>
+                            {{end}}
+                        </div>
+                    </td>
+                    {{ template "post" $p }}
+                </tr>
+                <tr class="spacer"></tr>
+        {{end}}
+        {{if $.MoreURL}}
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="title">
+                        <a href="/{{$.Page}}/{{$.MoreURL}}" class="morelink" rel="next">More</a>
+                    </td>
+                </tr>
+        {{end}}
+        </table>
+    {{else}}
+        There is nothing to see here...
+    {{end}}
+{{end}}

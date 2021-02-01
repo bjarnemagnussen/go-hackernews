@@ -1,0 +1,31 @@
+{{template "base" .}}
+
+{{define "title"}}Edit Profile{{end}}
+{{define "body"}}
+    <article class="site-content-dense">
+        <h1>Edit Profile</h1>
+        <form method="post" action="/user/edit">
+        <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+        <input type="hidden" name="goto" value="user/profile/{{.User.Username}}">
+        <table>
+            <tr>
+                <th>username</th>
+                <td>{{.User.Username}}</td>
+            </tr>
+            <tr>
+                <th>about me</th>
+                <td><textarea name="aboutme" rows="4" cols="49">{{if .Form.Errors}}{{.Form.Get "aboutme"}}{{else}}{{.User.About}}{{end}}</textarea>
+                {{with .Form}}<span style="margin-left:10px">{{with .Errors.Get "aboutme"}}{{.}}{{end}}</span>{{end}}
+                </td>
+            </tr>
+            <tr>
+                <th>email</th>
+                <td><input type="text" name="email" id="email" value="{{if .Form.Errors}}{{.Form.Get "email"}}{{else}}{{.User.Email}}{{end}}" size="50" oninput="tlen(this)" onfocus="tlen(this)"><span style="margin-left:10px">{{with .Form}}{{with .Errors.Get "email"}}{{.}}{{end}}{{end}}</span></td>
+            </tr>
+            <tr>
+                <th> </th>
+                <td><input id="submit" name="submit" type="submit" value="submit"></td>
+            </tr>
+        </table>
+    </article>
+{{end}}

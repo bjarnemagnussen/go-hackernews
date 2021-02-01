@@ -1,0 +1,31 @@
+{{define "post"}}
+{{if .URI.Valid}}
+<td>
+  <div style="margin-bottom:3pt;">
+    <span class="title"><a target="_blank" href="{{.URLScheme.String}}://{{.URI.String}}">{{.Title}}</a></span>
+    <span class="smaller"> (<a href="/from/{{.URLBase.String}}">{{.URLBase.String}}</a>)</span>
+  </div>
+</td>
+{{else}}
+<td>
+  <div style="margin-bottom:3pt;">
+    <span class="title"><a href="/items/{{.ID}}">{{.Title}}</a></span>
+    {{if .Content.Valid}}
+    {{/* Make sure we only add content to `Post` if we want it displayed. */}}
+    <p>{{.Content.String}}</p>
+    {{end}}
+  </div>
+</td>
+{{end}}
+</tr>
+<tr>
+<td>
+  <div>
+    <span class="smaller">
+        {{.Votes}} points by <a href="/user/profile/{{.Username}}" class="red">{{.Username}}</a>
+        <span class="moment" data-timestamp="{{.Created.Format "2006-01-02T15:04:05Z"}}">{{moment .Created .Retrieved}} ago</span> | 
+        <a href="/items/{{.ID}}">{{if (eq .Comments 0)}}discuss{{else}}{{.Comments}} comments{{end}}</a>
+    </span>
+  </div>
+</td>
+{{end}}

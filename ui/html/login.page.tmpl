@@ -1,0 +1,36 @@
+{{template "base" .}}
+
+{{define "title"}}Log In{{end}}
+
+{{define "body"}}
+
+<h1>Sign In</h1>
+<form action="/user/login" method="post" novalidate>
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+    {{with .Form}}
+    <input type="hidden" name="goto" value="{{.Get "goto"}}">
+    <p>
+        <label for="username">username</label><br />
+        <input id="username" name="username" required size="64" type="text" value="{{.Get "username"}}"><br />
+        {{/* TODO: Add form data to mark errors */}}
+        {{/* {% for error in form.username.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %} */}}
+    </p>
+    <p>
+        <label for="password">password</label><br />
+        <input id="password" name="password" required size="64" type="password" value=""><br />
+        {{/* TODO: Add form data to mark errors */}}
+        {{/* {% for error in form.password.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %} */}}
+    </p>
+    {{/* <p><input id="remember_me" name="remember_me" type="checkbox" value="y"> <label for="remember_me">remember me</label></p> */}}
+    <p><input id="submit" name="submit" type="submit" value="login"></p>
+    {{end}}
+</form>
+
+<a href="#">Forgot your password?</a><br />
+New User? <a href="/user/signup?goto={{.CurrentURL}}">Click to Register!</a>
+
+{{end}}

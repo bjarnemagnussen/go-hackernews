@@ -1,0 +1,22 @@
+{{define "comment_top"}}
+        <td>
+            <div style="margin-bottom:3pt;">
+                <span class="smaller"><a href="/user/profile/{{.Username}}">{{.Username}}</a></span>
+                <span class="smaller"><span class="moment" data-timestamp="{{.Created.Format "2006-01-02T15:04:05Z"}}">{{moment .Created .Retrieved}} ago |</span></span>
+            {{ if .ParentID.Valid }}
+            <span class="smaller"><a href="/items/{{.PostID}}/comments/{{.ParentID.Int64}}">parent</a> | </span>
+            {{ end }}
+            <span class="smaller">on: <a href="/items/{{.PostID}}">{{ .PostTitle }}</a></span>
+            </div>
+            <div>
+              {{if .Deleted}}[deleted]{{else}}{{ .Content }}{{end}}
+              {{/* DEBUG: <br/>ID: {{.ID}}<br/>Score: {{.Votes}}<br/>Level: {{.Level}}<br/>Leaf: {{.Leaf}} */}}
+
+            <div>
+              <span class="smaller">
+                <a href="/items/{{.PostID}}/comments/{{.ID}}?goto=items/{{.PostID}}/comments/{{.ID}}"><u>reply</u></a>
+              </span>
+            </div>
+            </div>
+        </td>
+{{end}}

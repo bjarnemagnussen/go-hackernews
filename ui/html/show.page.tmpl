@@ -1,0 +1,108 @@
+{{template "base" .}}
+
+{{define "title"}}{{.Post.Title}}{{end}}
+
+{{define "body"}}
+<article class="site-content-dense">
+  <table border="0" cellpadding="0" cellspacing="0" class="item-list outer level-0">
+    <tr>
+      {{with .Post}}
+      {{/* TODO: Would be better if voting can be moved to post.partial.tmpl (problem parsing in CSRFToken) */}}
+      <td rowspan="2">
+          <div>
+              {{if not $.IsAuthenticated}}
+              <form method="GET" action="/user/login">
+              <input type="hidden" name="goto" value="items/{{.ID}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{else if eq .Votable 0}}
+              &nbsp;
+              {{else if eq .Votable 2}}
+              <span class="self-item">*</span>
+              {{else}}
+              <form class="vote-form upvote" method="POST" action="/items/{{.ID}}/upvote">
+              <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+              <input type="hidden" name="goto" value="items/{{.ID}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{end}}
+          </div>
+      </td>
+      {{template "post" .}}
+      {{end}}
+    </tr>
+  </table>
+
+  <br />
+
+  <form action="/items/{{.Post.ID}}/comments/0" method="post">
+    {{if not .IsAuthenticated}}
+    <input type="hidden" name="goto" value="items/{{.Post.ID}}">
+    {{end}}
+    <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+    <p>
+      <input type="hidden" name="postid" value="{{.Post.ID}}">
+      {{with .Form}}<textarea cols="50" id="text" name="text" required rows="4">{{.Get "text"}}</textarea>{{end}}
+    {{with .Form}}<span style="margin-left:10px">{{with .Errors.Get "text"}}{{.}}{{end}}</span>{{end}}<br />
+      {{/* {% for error in form.text.errors %}
+      <span style="color: red;">[{{ error }}]</span> {% endfor %} */}}
+    </p>
+    <p><input id="submit" name="submit" type="submit" value="add comment"></p>
+    <ul class="horizontal-list">
+        <li><a class="smaller" href="/guidelines">guidelines</a></li>
+        {{/* <li><a class="smaller" href="javascript:toggleFormattingHelp()">formatting help</a></li> */}}
+    </ul>
+  </form>
+
+{{/* {{template "formatting_help" .}} */}}
+
+  <br />
+
+{{range .Comments}}
+  <table>
+    <tbody>
+        <tr id="{{.ID}}">
+        {{/* {% if shift_level %} 
+        <td width="{{ .Level * 40 - shift_level * 40}}" height="1"></td>
+        {% else %}*/}}
+        {{$indent := min .Level 5}}
+        <td width="{{mul $indent 30}}" height="1"></td>
+        {{/* {% endif %} */}}
+        <td valign="top">
+          <div>
+              {{if not $.IsAuthenticated}}
+              <form method="GET" action="/user/login">
+              <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{else if eq .Votable 0}}
+              &nbsp;
+              {{else if eq .Votable 2}}
+              <span class="self-item">*</span>
+              {{else}}
+              <form class="vote-form upvote" method="POST" action="/items/{{.PostID}}/comments/{{.ID}}/upvote">
+              <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+              <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{end}}
+            {{/* {% if current_user.id == comment.user_id %} */}}
+            {{/* <span class="self-item">*</span> */}}
+            {{/* {% elif votable == 0 or comment.deleted == True %}
+            &nbsp;
+            {% else %}
+            <form class="vote-form upvote" method="POST" action="{{ url_for('main.upvote_comment', comment_id=comment.id)}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+            </form>
+            {% endif %} */}}
+          </div>
+        </td>
+  {{template "comment" .}}
+        </tr>
+        <tr class="spacer"></tr>
+    </tbody>
+  </table>
+{{end}}
+
+</article>
+{{end}}

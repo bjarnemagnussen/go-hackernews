@@ -1,0 +1,45 @@
+{{template "base" .}}
+
+{{define "title"}}{{.Site}}{{end}}
+
+{{define "body"}}
+<article class="site-content-dense">
+{{range .Comments}}
+  <table>
+    <tbody>
+        <tr id="{{.ID}}">
+        {{$indent := min .Level 5}}
+        <td width="{{mul $indent 30}}" height="1"></td>
+        <td valign="top">
+          <div>
+              {{if not $.IsAuthenticated}}
+              <form method="GET" action="/user/login">
+              <input type="hidden" name="goto" value="items/{{.PostID}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{else if eq .Votable 0}}
+              &nbsp;
+              {{else if eq .Votable 2}}
+              <span class="self-item">*</span>
+              {{else}}
+              <form class="vote-form upvote" method="POST" action="/items/{{.PostID}}/comments/{{.ID}}/upvote">
+              <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+              <input type="hidden" name="goto" value="items/{{.PostID}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{end}}
+          </div>
+        </td>
+  {{if eq .Level 0}}
+  {{template "comment_top" .}}
+  {{else}}
+  {{template "comment" .}}
+  {{end}}
+        </tr>
+        <tr class="spacer"></tr>
+    </tbody>
+  </table>
+{{end}}
+
+</article>
+{{end}}

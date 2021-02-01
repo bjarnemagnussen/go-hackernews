@@ -1,0 +1,302 @@
+body {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 10pt;
+  color: #422E2C;
+}
+
+td {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 10pt;
+  color: #422E2C;
+}
+
+a {
+  color: inherit;
+}
+
+input {
+  font-family: monospace;
+  font-size: 8pt;
+}
+
+input[type=\"submit\"] {
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+textarea {
+  font-family: monospace;
+  font-size: 10pt;
+}
+
+/* button {
+  padding: 0.25em;
+} */
+
+nav#top-bar {
+  background-color: #FF974E;
+}
+
+nav#footer-bar {
+  background-color: #FCF4E4;
+  text-align: center;
+  font-size: 9pt;
+  padding-bottom: 0.5em;
+}
+
+nav#footer-bar * {
+  color: #646464;
+  text-decoration: none;
+}
+
+nav#top-bar * {
+  color: #180000;
+  text-decoration: none;
+}
+
+nav#top-bar *.active {
+  color: #FCF4E4;
+  font-weight: bold;
+}
+
+nav form {
+  display: inline-block;
+  margin-left: 0;
+}
+
+nav button {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*optional*/
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 10pt;
+  /*input has OS specific font-family*/
+  color: #180000;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+main {
+  background-color: #FCF4E4;
+}
+
+#pnmain {
+  width: 85%;
+  margin: auto;
+}
+
+nav#pre-footer-bar>hr {
+  border: 2px solid #FA6900;
+  width: 100%;
+}
+
+td {
+  padding-right: 8px;
+  vertical-align: text-top;
+}
+
+#top-bar td {
+  vertical-align: middle;
+}
+
+.red {
+  color: #8C2315;
+}
+
+tr.spacer {
+  height: 1em;
+}
+
+.title>a {
+  text-decoration: none;
+}
+
+.title>a:visited {
+  color: #999;
+}
+
+.smaller {
+  font-size: 7pt;
+  color: #646464;
+}
+
+ul.horizontal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.horizontal-list li {
+  display: inline-block;
+}
+
+.highlight {
+  background-color: #F8ECC2;
+}
+
+.self-item {
+  color: #FA6900;
+}
+
+.site-content {
+  font-size: 12pt;
+  line-height: 1.8em;
+  margin: 3%;
+  max-width: 50em;
+}
+
+.site-content-dense {
+  margin: 1%;
+}
+
+label {
+  font-size: 10pt;
+}
+
+.formatting-help {
+  border: 2px solid #ddd;
+  padding: 0.25em;
+  margin: 0 20px;
+  box-sizing: border-box;
+}
+
+.formatting-help.closed {
+  display: none;
+}
+
+.formatting-help h3 {
+  display: block;
+  margin: 0;
+  padding: 0.5em 0 0.25em 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.formatting-help h3:first-child {
+  padding-top: 0;
+}
+
+.vote-form {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.vote-button {
+  background: transparent;
+  display: block;
+  padding: 0;
+  padding-top: 4px;
+  /* border: 1px solid red; */
+  border: 0;
+}
+
+/* http://apps.eky.hk/css-triangle-generator/ */
+div.arrow-up {
+  position: relative;
+  top: -2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0.45em 0.85em 0.45em;
+  border-color: transparent transparent #646464 transparent;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  text-align: left;
+  margin: 10px 10px 0px 10px;
+  padding-bottom: 10px;
+}
+
+/* mobile device */
+@media only screen and (min-width : 300px) and (max-width : 750px) {
+  #pnmain {
+    width: 100%;
+    margin: 0;
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    -webkit-text-size-adjust: none;
+  }
+
+  td {
+    height: inherit !important;
+  }
+
+  .title,
+  .comment {
+    font-size: inherit;
+  }
+
+  span.pagetop {
+    display: block;
+    margin: 3px 5px;
+    font-size: 12px;
+  }
+
+  span.pagetop b {
+    display: block;
+    font-size: 15px;
+  }
+
+  .vote-form {
+    padding: 0.2em;
+    transform: scale(1.8);
+  }
+
+  body {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    color: #646464;
+  }
+
+  td {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    color: #646464;
+  }
+
+  .smaller {
+    font-size: 10pt;
+  }
+
+  button {
+    background-color: #e3e3e3;
+    border: #646464;
+    color: #535353;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  form.comment-form textarea {
+    width: 100%;
+  }
+
+  div.arrow-up {
+    position: relative;
+    top: -2px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0.2em 0.6em 0.2em;
+    border-color: transparent transparent #646464 transparent;
+  }
+
+  div.arrow-down {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.6em 0.2em 0 0.2em;
+    border-color: #646464 transparent transparent transparent;
+  }
+}

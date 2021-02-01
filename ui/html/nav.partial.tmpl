@@ -1,0 +1,40 @@
+{{define "nav"}}
+
+<nav id="top-bar">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:2px">
+        <tbody>
+            <tr>
+                <td style="width:18px;padding-right:4px">
+                <a href="/"><img alt="Bitcoin Icon" src="/static/logo_mini.png" width="18" height="18"></a>
+                </td>
+                <td style="line-height:12pt; height:10px;">
+                    <span class="pagetop">
+                    <b class="pnname"><a href="/"><b>Bitcoin Hub</b></a></b>
+                    | <a{{if eq .Page "newest"}} class="active"{{end}} href="/newest">new</a>
+                    | <a{{if eq .Page "comments"}} class="active"{{end}} href="/comments">comments</a>
+                    | <a{{if eq .Page "ask"}} class="active"{{end}} href="/ask">ask</a>
+                    | <a{{if eq .Page "show"}} class="active"{{end}} href="/show">show</a>
+                    | <a{{if eq .Page "submit"}} class="active"{{end}} href="{{if not .IsAuthenticated}}/user/login?goto=submit{{else}}/submit{{end}}">submit</a>
+                    {{if eq .Page "from"}}| <span style="color:#fff;">from</span>{{end}}
+                    {{if is .Page " submissions"}}| <span style="color:#fff;">{{.Page}}</span>{{end}}
+                    {{if is .Page " comments"}}| <span style="color:#fff;">{{.Page}}</span>{{end}}
+                    </span>
+                </td>
+                <td style="text-align:right;padding-right:4px;">
+                <span class="pagetop">
+                    {{if .IsAuthenticated}}
+                    <a href="/user/profile/{{.User.Username}}">{{.User.Username}}</a> ({{.User.Karma}}) |
+                    <form action='/user/logout' method='POST'>
+                        <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                        <button>Logout</button>
+                    </form>
+                    {{else}}
+                    <a{{if eq .Page "login"}} class="active"{{end}} href="/user/login?goto={{.CurrentURL}}">login</a>
+                    {{end}}
+                </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</nav>
+{{end}}

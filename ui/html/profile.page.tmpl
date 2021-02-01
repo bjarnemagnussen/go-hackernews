@@ -1,0 +1,33 @@
+{{template "base" .}}
+
+{{define "title"}}Profile: {{.ProfileUser.Username}}{{end}}
+{{define "body"}}
+    <article class="site-content-dense">
+    <table>
+    <tbody>
+        <tr>
+            <th>user:</th>
+            <td>{{.ProfileUser.Username}}</td>
+        </tr>
+        <tr>
+            <th>created:</th>
+            <td>{{humanDate .ProfileUser.Created}}</td>
+        </tr>
+        <tr>
+            <th>karma:</th>
+            <td>{{.ProfileUser.Karma}}</td>
+        </tr>
+        <tr>
+            <th>about:</th>
+            <td>{{.ProfileUser.About}}</td>
+        </tr>
+    </tbody>
+    </table>
+
+    <a href="/submissions/{{.ProfileUser.Username}}">submissions</a><br>
+    <a href="/threads/{{.ProfileUser.Username}}">comments</a><br>
+    {{if and .IsAuthenticated (eq .ProfileUser.ID .User.ID)}}
+    <a href="/user/edit">edit your profile</a><br>
+    {{end}}
+    </article>
+{{end}}

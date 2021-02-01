@@ -1,0 +1,18 @@
+# Server configurations
+server:
+  host: ""
+  domain: ""
+  port: 5000
+  secret_key: "SUPER_SECRET_KEY"
+
+# Database credentials
+database:
+  dsn: "web:pass@tcp(database:3306)/go-hackernews"
+
+# Template variables
+template:
+  site_name: "Full Site Name"
+  site_short: "Short Name"
+  generator: ""
+  theme_color: "#306998"
+  footer_text: 'Based on <a href="https://github.com/bjarnemagnussen/go-hackernews" target=_blank>Go Hackernews</a>'

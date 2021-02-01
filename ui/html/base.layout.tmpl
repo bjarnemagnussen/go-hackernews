@@ -1,0 +1,51 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta property="og:locale" content="en_UK" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{{.SiteName}}" />
+        <meta property="og:site_name" content="{{.SiteShort}}" />
+        <meta name="generator" content="{{.Generator}}" />
+        <meta name="theme-color" content="{{.ThemeColor}}" />
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="renderer" content="webkit|ie-comp|ie-stand" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="shortcut icon" href="/static/favicon.ico">
+        <link rel="stylesheet" type="text/css" href="/static/main.css">
+
+        <style type="text/css">
+          .e-mail:before {
+              content: attr(data-website) "\0040" attr(data-user);
+              unicode-bidi: bidi-override;
+              direction: rtl;
+          }
+        </style>
+
+        {{if .User}}
+        <script type="text/javascript" src="/static/main.js"></script>
+        {{end}}
+
+        {{/* {{template "moment" .}} */}}
+        <title>{{if ne .Title ""}}{{.Title}} - {{end}}{{.SiteName}}</title>
+    </head>
+    <body>
+      <main id="pnmain">
+        {{template "nav" .}}
+        
+        {{with .Flash}}
+          <div class='flash '>{{.}}</div>
+        {{end}}
+
+          {{template "body" .}}
+
+        {{template "footer" .}}
+
+    </main>
+  </body>
+</html>
+{{end}}

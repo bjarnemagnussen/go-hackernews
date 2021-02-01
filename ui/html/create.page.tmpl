@@ -1,0 +1,45 @@
+{{template "base" .}}
+
+{{define "title"}}Submit{{end}}
+
+{{define "body"}}
+<article class="site-content-dense">
+    <h1>Submit Post</h1>
+    <form method="post" action="/submit">
+    <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+    {{with .Form}}
+      <table>
+        <script type="text/javascript">function tlen(el) { var n = el.value.length - 80; el.nextSibling.innerText = n > 0 ? n + ' too long' : ''; }</script>
+        <tr>
+            <th>title</th>
+            <td><input type="text" name="title" id="title" value="{{.Get "title"}}" size="50" oninput="tlen(this)" onfocus="tlen(this)"><span style="margin-left:10px">{{with .Errors.Get "title"}}{{.}}{{end}}</span></td>
+        </tr>
+        <tr>
+            <th>url</th>
+            <td><input type="text" name="url" id="url" value="{{.Get "url"}}" size="50">
+              <span style="margin-left:10px">{{with .Errors.Get "url"}}{{.}}{{end}}</span>
+            </td>
+        </tr>
+        <tr><th> </th><td>or</td></tr>
+        <tr>
+            <th>text</th>
+            <td><textarea name="text" rows="4" cols="49">{{.Get "text"}}</textarea>
+              <span style="margin-left:10px">{{with .Errors.Get "text"}}{{.}}{{end}}</span>
+            </td>
+        </tr>
+        <tr>
+            <th> </th><td><input id="submit" name="submit" type="submit" value="submit"></td>
+        </tr>
+        <tr>
+            <th> </th>
+            <td>
+              <p>
+                Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.
+              </p>
+            </td>
+        </tr>
+      </table>
+    {{end}}
+    </form>
+</article>
+{{end}}

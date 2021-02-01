@@ -1,0 +1,127 @@
+{{template "base" .}}
+
+
+{{define "title"}}Add Comment{{end}}
+
+{{define "body"}}
+
+<article class="site-content-dense">
+<table border="0" cellpadding="0" cellspacing="0" class="item-list outer level-0">
+  <tr>    
+    <td rowspan="2">
+        <div>
+          {{with .Comment}}
+            {{if not $.IsAuthenticated}}
+            <form method="GET" action="/user/login">
+            <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">
+            <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+            </form>
+            {{else if eq .Votable 0}}
+            &nbsp;
+            {{else if eq .Votable 2}}
+            <span class="self-item">*</span>
+            {{else}}
+            <form class="vote-form upvote" method="POST" action="/items/{{.PostID}}/comments/{{.ID}}/upvote">
+            <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+            <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">{{/* TODO: Must be a different goto value to the comment? */}}
+            <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+            </form>
+            {{end}}
+          {{end}}
+        </div>
+    </td>
+    <td>
+        {{with .Comment}}
+        <div style="margin-bottom:3pt;">
+            <span class="smaller"><a href="/user/profile/{{.Username}}">{{.Username}}</a></span>
+            <span class="smaller" data-timestamp="{{.Created.Format "2006-01-02T15:04:05Z"}}">{{moment .Created .Retrieved}} ago | </span>
+            {{ if .ParentID.Valid }}
+            <span class="smaller"><a href="/items/{{.PostID}}/comments/{{.ParentID.Int64}}">parent</a> | </span>
+            {{ end }}
+            <span class="smaller">on: <a href="/items/{{.PostID}}">{{ .PostTitle }}</a></span>
+
+            <p>{{ .Content }}</p>
+        </div>
+        {{end}}
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<form action="/items/{{.Comment.PostID}}/comments/{{.Comment.ID}}" method="post">
+  <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+  {{if not .IsAuthenticated}}<input type="hidden" name="goto" value="items/{{.Comment.PostID}}/comments/{{.Comment.ID}}">{{end}}
+  <p>
+    <input type="hidden" name="commentid" value="{{.Comment.ID}}">
+    {{with .Form}}{{if eq $.Comment.Deleted 0}}<textarea cols="50" id="text" name="text" required rows="4">{{.Get "text"}}</textarea>
+                  {{else if ne (.Get "text") ""}}<textarea readonly cols="50" id="text" name="text" required rows="4">{{.Get "text"}}</textarea>
+                  {{end}}
+    {{end}}
+    {{with .Form}}<span style="margin-left:10px">{{with .Errors.Get "text"}}{{.}}{{end}}</span>{{end}}<br />
+  </p>
+  <p>{{if eq $.Comment.Deleted 0}}<input id="submit" name="submit" type="submit" value="reply">{{end}}</p>
+    <ul class="horizontal-list">
+        <li><a class="smaller" href="/guidelines">guidelines</a></li>
+        {{/* <li><a class="smaller" href="javascript:toggleFormattingHelp()">formatting help</a></li> */}}
+    </ul>
+</form>
+
+{{/* {{template "formatting_help" .}} */}}
+
+<br />
+{{range .Comments}}
+  <table>
+    <tbody>
+        <tr id="{{.ID}}">
+        {{/* {% if shift_level %} 
+        <td width="{{ .Level * 40 - shift_level * 40}}" height="1"></td>
+        {% else %}*/}}
+        {{$indent := min .Level 5}}
+        <td width="{{mul $indent 30}}" height="1"></td>
+        {{/* {% endif %} */}}
+        <td valign="top">
+          <div>
+              {{if not $.IsAuthenticated}}
+              <form method="GET" action="/user/login">
+              <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{else if eq .Votable 0}}
+              &nbsp;
+              {{else if eq .Votable 2}}
+              <span class="self-item">*</span>
+              {{else}}
+              <form class="vote-form upvote" method="POST" action="/items/{{.PostID}}/comments/{{.ID}}/upvote">
+              <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+              <input type="hidden" name="goto" value="items/{{.PostID}}/comments/{{.ParentID.Int64}}">{{/* TODO: Must be a different goto value to the comment? */}}
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+              </form>
+              {{end}}
+            {{/* {% if current_user.id == comment.user_id %} */}}
+            {{/* <span class="self-item">*</span> */}}
+            {{/* {% elif votable == 0 or comment.deleted == True %}
+            &nbsp;
+            {% else %}
+            <form class="vote-form upvote" method="POST" action="{{ url_for('main.upvote_comment', comment_id=comment.id)}}">
+              <button type="submit" class="vote-button" aria-label="Upvote"><div class="arrow-up"></div></button>
+            </form>
+            {% endif %} */}}
+          </div>
+        </td>
+  {{template "comment" .}}
+        </tr>
+        <tr class="spacer"></tr>
+    </tbody>
+  </table>
+{{end}}
+
+
+{{/* {% set shift_level = comment.level()+1 %}
+{% for comment_tuple in comments %}
+{% set comment = comment_tuple.0 %}
+{% set votable = comment_tuple.1 %}
+{% include '_comment.html' %}
+{% endfor %} */}}
+</article>
+{{end}}
