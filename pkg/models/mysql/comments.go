@@ -174,7 +174,7 @@ func NewCommentModel(db *sql.DB) (*CommentModel, error) {
 			SELECT MAX(LENGTH(f.path))
 			FROM first_comments AS f
 			WHERE f.id = c.id
-		)
+		) AND p.deleted = 0
 		GROUP BY c.id, u.username, c.content, c.parent_id, c.post_id, c.user_id, c.created, c.level, leaf, c.votes, c.votable, c.deleted, d.id, c.path
 		ORDER BY GROUP_CONCAT(c.path) DESC`
 	// TODO: Is the leaf var necessary?
