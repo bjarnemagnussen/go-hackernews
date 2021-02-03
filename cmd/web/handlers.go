@@ -810,3 +810,7 @@ func (app *application) guidelines(w http.ResponseWriter, r *http.Request) {
 func (app *application) acknowledgements(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "acknowledgements.page.tmpl", &templateData{Title: "Acknowledgements"})
 }
+
+func (app *application) faq(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "faq.page.tmpl", &templateData{Title: "Acknowledgements"})
+}
