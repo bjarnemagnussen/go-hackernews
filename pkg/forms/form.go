@@ -44,7 +44,7 @@ var RestrictedUsernames = []string{
 	"talk", "update", "upload", "url", "user", "username", "usuario", "usage", "vendas", "video", "videos", "visitor",
 	"win", "ww", "www", "www1", "www2", "www3", "www4", "www5", "www6", "www7", "wwww", "wws", "wwws", "web",
 	"webmail", "website", "websites", "webmaster", "workshop", "xxx", "xpg", "you", "yourname", "yourusername",
-	"yoursite", "yourdomain",
+	"yoursite", "yourdomain", "whoishiring",
 
 	"anal", "anus", "arse", "ass", "ballsack", "balls", "bastard", "bitch", "biatch", "bloody", "blowjob", "bollock",
 	"bollok", "bonerboob", "bugger", "bum", "butt", "buttplug", "clitoris", "cock", "coon", "crap", "cunt", "damn",
