@@ -66,7 +66,7 @@ type application struct {
 		GetByID(loggedInUserID, id int) (*models.Post, error)
 		GetIDFromURL(s string) (int, error)
 		GetFromDomain(loggedInUserID, lastID int, domain string) ([]*models.Post, error)
-		GetForType(loggedInUserID, offset int, postType mysql.PostType) ([]*models.Post, error)
+		GetForType(loggedInUserID, lastID int, popular bool, postType mysql.PostType) ([]*models.Post, error)
 		Latest(loggedInUserID, lastPostID, filterByUserID int) ([]*models.Post, error)
 		Popular(loggedInUserID, offset int) ([]*models.Post, error)
 		Upvote(postID, userID int, created time.Time) (int, error)

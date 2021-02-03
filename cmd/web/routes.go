@@ -54,10 +54,10 @@ func (app *application) routes() http.Handler {
 	router.Get("/threads/:foruser/:next/:page", dynamicMiddleware.ThenFunc(app.showUserComments))
 	router.Get("/from/:domain", dynamicMiddleware.ThenFunc(app.showFromDomain))
 	router.Get("/from/:domain/:next/:page", dynamicMiddleware.ThenFunc(app.showFromDomain))
-	router.Get("/ask", dynamicMiddleware.ThenFunc(app.showAskBH))
-	router.Get("/ask/:next/:page", dynamicMiddleware.ThenFunc(app.showAskBH))
-	router.Get("/show", dynamicMiddleware.ThenFunc(app.showShowBH))
-	router.Get("/show/:next/:page", dynamicMiddleware.ThenFunc(app.showShowBH))
+	router.Get("/ask/:order", dynamicMiddleware.ThenFunc(app.showAskUs))
+	router.Get("/ask/:order/:next/:page", dynamicMiddleware.ThenFunc(app.showAskUs))
+	router.Get("/show/:order", dynamicMiddleware.ThenFunc(app.showShowUs))
+	router.Get("/show/:order/:next/:page", dynamicMiddleware.ThenFunc(app.showShowUs))
 
 	router.Get("/items/:postid", dynamicMiddleware.ThenFunc(app.showPost))
 	router.Post("/items/:postid/upvote", dynamicMiddleware.Append(app.requireAuthentication).ThenFunc(app.upvotePost))
@@ -83,6 +83,7 @@ func (app *application) routes() http.Handler {
 	router.Get("/guidelines", dynamicMiddleware.ThenFunc(app.guidelines))
 	router.Get("/acknowledgements", dynamicMiddleware.ThenFunc(app.acknowledgements))
 	router.Get("/faq", dynamicMiddleware.ThenFunc(app.faq))
+	router.Get("/show-rules", dynamicMiddleware.ThenFunc(app.showUsRules))
 
 	return standardMiddleware.Then(router)
 }

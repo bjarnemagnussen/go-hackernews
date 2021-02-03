@@ -63,7 +63,7 @@ func (m *PostModel) GetFromDomain(loggedInUserID, lastID int, domain string) ([]
 	}
 }
 
-func (m *PostModel) GetForType(loggedInUserID, offset int, postType mysql.PostType) ([]*models.Post, error) {
+func (m *PostModel) GetForType(loggedInUserID, lastID int, popoular bool, postType mysql.PostType) ([]*models.Post, error) {
 	return nil, nil
 }
 

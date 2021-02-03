@@ -189,7 +189,10 @@ func (m *PostModel) GetFromDomain(loggedInUserID, lastID int, domain string) ([]
 	return posts, nil
 }
 
-func (m *PostModel) GetForType(loggedInUserID, offset int, postType PostType) ([]*models.Post, error) {
+func (m *PostModel) GetForType(loggedInUserID, lastID int, popular bool, postType PostType) ([]*models.Post, error) {
+	if lastID == 0 {
+		lastID = 999999999
+	}
 
 	stmt := `SELECT p.id, u.username, p.title, p.url_scheme, p.url_base, p.uri, p.created,
 		COUNT(DISTINCT v.id) AS votes,
@@ -199,16 +202,20 @@ func (m *PostModel) GetForType(loggedInUserID, offset int, postType PostType) ([
 	LEFT JOIN votes AS v ON p.id = v.post_id
 	LEFT JOIN comments AS c ON p.id = c.post_id
 	JOIN users AS u ON p.user_id = u.id
-	WHERE p.post_type = ? AND p.deleted = 0
+	WHERE p.post_type = ? AND p.deleted = 0 AND p.id < ?
 	GROUP BY p.id
-	ORDER BY (COUNT(DISTINCT v.id)) / POW((TIMESTAMPDIFF(HOUR, p.created, NOW()) + 2), 1.2) DESC, p.created DESC, p.ID DESC
-	LIMIT ?, 31`
+	ORDER BY %s p.created DESC, p.id DESC
+	LIMIT 31`
 
 	now := time.Now()
 
 	var err error
 	var rows *sql.Rows
-	rows, err = m.DB.Query(stmt, loggedInUserID, loggedInUserID, postType, offset)
+	if popular {
+		rows, err = m.DB.Query(fmt.Sprintf(stmt, "(COUNT(DISTINCT v.id)) / POW((TIMESTAMPDIFF(HOUR, p.created, NOW()) + 2), 1.2) DESC, "), loggedInUserID, loggedInUserID, postType, lastID)
+	} else {
+		rows, err = m.DB.Query(fmt.Sprintf(stmt, ""), loggedInUserID, loggedInUserID, postType, lastID)
+	}
 	if err != nil {
 		return nil, err
 	}

@@ -2,10 +2,25 @@
 
 {{define "title"}}Newest{{end}}
 {{define "body"}}
+    <article class="site-content-dense">
+    <table border="0" cellpadding="0" cellspacing="0" class="item-list outer level-0">
+    {{if eq .Page "show/popular"}}
+            <tr style="height:6px"></tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>Please read the <a href="/show-rules"><u>rules</u></a>. You can also browse the <a href="/show/newest"><u>newest</u></a> Show Us.</td>
+            </tr>
+            <tr class="spacer"></tr>
+    {{else if eq .Page "ask/popular"}}
+            <tr style="height:6px"></tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>Please read the <a href="/faq#ask-show"><u>rules</u></a>. You can also browse the <a href="/ask/newest"><u>newest</u></a> Ask Us.</td>
+            </tr>
+            <tr class="spacer"></tr>
+    {{end}}
+    {{/* {{$n := len .Posts}} */}}
     {{if .Posts}}
-        <article class="site-content-dense">
-        <table border="0" cellpadding="0" cellspacing="0" class="item-list outer level-0">
-        {{$n := len .Posts}}
         {{range $i, $p := .Posts}}
                 <tr>
                     <td rowspan="2">{{add $.StartRank $i}}.</td>
@@ -42,8 +57,12 @@
                     </td>
                 </tr>
         {{end}}
-        </table>
     {{else}}
-        There is nothing to see here...
+            <tr style="height:6px"></tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>There is nothing to see here...</td>
+            </tr>
     {{end}}
+        </table>
 {{end}}

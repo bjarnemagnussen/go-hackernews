@@ -2,6 +2,7 @@ package mysql_test
 
 import (
 	"database/sql"
+	"strings"
 	"testing"
 	"time"
 
@@ -181,7 +182,7 @@ func TestPost_GetForTypeShow(t *testing.T) {
 		userID:  user.ID,
 	})
 
-	showPosts, err := postModel.GetForType(user.ID, 0, mysql.ShowPost)
+	showPosts, err := postModel.GetForType(user.ID, 0, true, mysql.ShowPost)
 	require.NoError(t, err)
 	require.Equal(t, 2, len(showPosts))
 }
@@ -192,19 +193,22 @@ func TestPost_GetForTypeAsk(t *testing.T) {
 		title:   "Ask Us: " + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
+		created: time.Now().UTC().Add(-2 * time.Hour),
 	})
 	createTestPost(t, createTestPostArg{
 		title:   "Ask Us:" + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
+		created: time.Now().UTC(),
 	})
 	createTestPost(t, createTestPostArg{
 		title:   util.RandomString(10) + "?",
 		content: util.RandomString(200),
 		userID:  user.ID,
+		created: time.Now().UTC().Add(-time.Hour),
 	})
 
-	askPosts, err := postModel.GetForType(user.ID, 0, mysql.AskPost)
+	askPosts, err := postModel.GetForType(user.ID, 0, false, mysql.AskPost)
 	require.NoError(t, err)
 	require.Equal(t, 3, len(askPosts))
 	require.True(t, strings.HasPrefix(askPosts[2].Title, "Ask Us: "))

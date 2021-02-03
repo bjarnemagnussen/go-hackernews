@@ -12,8 +12,8 @@
                     <b class="pnname"><a href="/"><b>Bitcoin Hub</b></a></b>
                     | <a{{if eq .Page "newest"}} class="active"{{end}} href="/newest">new</a>
                     | <a{{if eq .Page "comments"}} class="active"{{end}} href="/comments">comments</a>
-                    | <a{{if eq .Page "ask"}} class="active"{{end}} href="/ask">ask</a>
-                    | <a{{if eq .Page "show"}} class="active"{{end}} href="/show">show</a>
+                    | <a{{if is .Page "ask"}} class="active"{{end}} href="/ask/popular">ask</a>
+                    | <a{{if is .Page "show"}} class="active"{{end}} href="/show/popular">show</a>
                     | <a{{if eq .Page "submit"}} class="active"{{end}} href="{{if not .IsAuthenticated}}/user/login?goto=submit{{else}}/submit{{end}}">submit</a>
                     {{if eq .Page "from"}}| <span style="color:#fff;">from</span>{{end}}
                     {{if is .Page " submissions"}}| <span style="color:#fff;">{{.Page}}</span>{{end}}

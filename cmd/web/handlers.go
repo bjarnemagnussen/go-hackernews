@@ -17,6 +17,10 @@ import (
 // TODO: Make Show/Ask BH: handler have a points threshold
 // TODO: admin/moderator accounts that can flag submissions
 // TODO: power user accounts that can vote to flag submissions
+// TODO: Don't burry reposts as duplicates if more than 1 year old
+// TODO: Add green color to usernames that are new
+// TODO: Prevent commenting on submissions older than 2 weeks
+// TODO: Add pagination to users comments page
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	params := r.Context().Value(contextParams).(httprouter.Params)
@@ -134,66 +138,94 @@ func (app *application) showFromDomain(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (app *application) showShowBH(w http.ResponseWriter, r *http.Request) {
+func (app *application) showShowUs(w http.ResponseWriter, r *http.Request) {
 	params := r.Context().Value(contextParams).(httprouter.Params)
 	user := app.authenticatedUser(r)
+	page := "show/popular"
 
-	page, err := strconv.Atoi(params.ByName("page"))
+	pageNum, err := strconv.Atoi(params.ByName("page"))
 	if err != nil {
-		page = 0
-	} else if page < 0 || page >= 10 {
+		pageNum = 0
+	} else if pageNum < 0 || pageNum >= 10 {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-	posts, err := app.posts.GetForType(user.ID, page*30, mysql.ShowPost)
+	lastID, err := strconv.Atoi(params.ByName("next"))
+	if err != nil {
+		pageNum = 0
+	} else if lastID < 0 {
+		http.Redirect(w, r, "/show", http.StatusSeeOther)
+	}
+
+	var posts []*models.Post
+	if params.ByName("order") == "newest" {
+		posts, err = app.posts.GetForType(user.ID, lastID, false, mysql.ShowPost)
+		page = "show/newest"
+	} else {
+		posts, err = app.posts.GetForType(user.ID, lastID, true, mysql.ShowPost)
+	}
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	var moreURL string
-	if len(posts) == 31 && page < 10 {
-		moreURL = strconv.Itoa(page + 1)
+	if len(posts) == 31 && pageNum < 10 {
+		moreURL = strconv.Itoa(pageNum + 1)
 		posts = posts[:30]
 	}
 
 	app.render(w, r, "home.page.tmpl", &templateData{
-		Page:      "show",
+		Page:      page,
 		Title:     "Show",
 		Posts:     posts,
-		StartRank: page*30 + 1,
+		StartRank: pageNum*30 + 1,
 		MoreURL:   moreURL,
 	})
 }
 
-func (app *application) showAskBH(w http.ResponseWriter, r *http.Request) {
+func (app *application) showAskUs(w http.ResponseWriter, r *http.Request) {
 	params := r.Context().Value(contextParams).(httprouter.Params)
 	user := app.authenticatedUser(r)
+	page := "ask/popular"
 
-	page, err := strconv.Atoi(params.ByName("page"))
+	pageNum, err := strconv.Atoi(params.ByName("page"))
 	if err != nil {
-		page = 0
-	} else if page < 0 || page >= 10 {
+		pageNum = 0
+	} else if pageNum < 0 || pageNum >= 10 {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
-	posts, err := app.posts.GetForType(user.ID, page*30, mysql.AskPost)
+	lastID, err := strconv.Atoi(params.ByName("next"))
+	if err != nil {
+		pageNum = 0
+	} else if lastID < 0 {
+		http.Redirect(w, r, "/ask", http.StatusSeeOther)
+	}
+
+	var posts []*models.Post
+	if params.ByName("order") == "newest" {
+		posts, err = app.posts.GetForType(user.ID, lastID, false, mysql.AskPost)
+		page = "ask/newest"
+	} else {
+		posts, err = app.posts.GetForType(user.ID, lastID, true, mysql.AskPost)
+	}
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	var moreURL string
-	if len(posts) == 31 && page < 10 {
-		moreURL = strconv.Itoa(page + 1)
+	if len(posts) == 31 && pageNum < 10 {
+		moreURL = strconv.Itoa(pageNum + 1)
 		posts = posts[:30]
 	}
 
 	app.render(w, r, "home.page.tmpl", &templateData{
-		Page:      "ask",
+		Page:      page,
 		Title:     "Ask",
 		Posts:     posts,
-		StartRank: page*30 + 1,
+		StartRank: pageNum*30 + 1,
 		MoreURL:   moreURL,
 	})
 }
@@ -813,4 +845,8 @@ func (app *application) acknowledgements(w http.ResponseWriter, r *http.Request)
 
 func (app *application) faq(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "faq.page.tmpl", &templateData{Title: "Acknowledgements"})
+}
+
+func (app *application) showUsRules(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "show_rules.page.tmpl", &templateData{Title: "Acknowledgements"})
 }
