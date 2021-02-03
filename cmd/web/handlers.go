@@ -650,7 +650,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := app.user.Authenticate(form.Get("username"), form.Get("password"))
 	if err == models.ErrInvalidCredentials {
-		app.session.Put(r, "flash", "Email or Password is incorrect")
+		app.session.Put(r, "flash", "Username or Password is incorrect")
 		app.render(w, r, "login.page.tmpl", &templateData{
 			Page:       "login",
 			Title:      "Login",
