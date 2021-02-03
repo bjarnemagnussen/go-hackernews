@@ -3,13 +3,13 @@
 {{define "title"}}Guidelines{{end}}
 {{define "body"}}
 <article class="site-content-dense">
-    <h2>Bitcoin Hub Guidelines</h2>
+    <h2>{{.SiteShort}} Guidelines</h2>
 
     <p class="smaller">Based on <a href="https://news.ycombinator.com/newsguidelines.html/">Hacker News Guidelines</a>
     </p>
 
     <p>
-        Bitcoin Hub is a platform for friends of Bitcoin.<br>
+        {{.SiteShort}} is a platform for friends of {{.Generator}}.<br>
         It shall enable people to discover, share and discuss interesting thoughts, publications or web pieces about
         Bitcoin and its related fields.<br>
         On the platform, anybody shall feel welcomed.
@@ -17,9 +17,9 @@
 
     <h3>What to Submit?</h3>
     <p>
-        On-Topic: Anything that Bitcoiners would find interesting. That includes more than Bitcoin. If you had to reduce
+        On-Topic: Anything that {{.Generator}}ers would find interesting. That includes more than {{.Generator}}. If you had to reduce
         it to a sentence,
-        the answer might be: anything that gratifies one's intellectual curiosity within a broader spectrum of Bitcoin.
+        the answer might be: anything that gratifies one's intellectual curiosity within a broader spectrum of {{.Generator}}.
     </p>
     <p>
         Off-Topic: Videos of pratfalls or disasters, or cute animal pictures. If they'd cover it on TV news, it's
@@ -55,7 +55,7 @@
         Otherwise please use the original title, unless it is misleading or linkbait; don't editorialize.
     </p>
     <p>
-        Please don't post on Bitcoin Hub to ask or tell us something. Send it to hello@bitcoinhub.dev.
+        Please don't post on {{.SiteShort}} to ask or tell us something.
     </p>
     <p>
         Please don't delete and repost the same story. Deletion is for things that shouldn't have been submitted in the
@@ -96,7 +96,7 @@
         something.
     </p>
     <p>
-        Please don't use Bitcoin Hub for political or ideological battle. That destroys the curiosity this site exists
+        Please don't use {{.SiteShort}} for political or ideological battle. That destroys the curiosity this site exists
         for.
     </p>
     <p>
@@ -105,7 +105,7 @@
         "The article mentions that."
     </p>
     <p>
-        Throwaway accounts are ok for sensitive information, but please don't create accounts routinely. Bitcoin Hub is
+        Throwaway accounts are ok for sensitive information, but please don't create accounts routinely. {{.SiteShort}} is
         a community—users should have
         an identity that others can relate to.
     </p>
