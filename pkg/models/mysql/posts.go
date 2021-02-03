@@ -54,18 +54,21 @@ func (m *PostModel) Insert(arg CreatePostParams) (int, error) {
 		content = sql.NullString{"", false}
 
 		// Cleanup title.
-		if strings.HasSuffix(uri.String, ".pdf") {
+		if strings.HasSuffix(uri.String, ".pdf") && !strings.HasSuffix(arg.Title, "[pdf]") {
 			arg.Title += " [pdf]"
 		}
-		arg.Title = strings.TrimPrefix(strings.TrimPrefix(arg.Title, "Show BH:"), "Ask BH:")
+		arg.Title = strings.TrimPrefix(strings.TrimPrefix(arg.Title, "Show Us:"), "Ask Us:")
 
 	} else {
 		// Post is content.
 		switch {
-		case strings.HasPrefix(arg.Title, "Show BH:"):
+		case strings.HasPrefix(arg.Title, "Show Us:"):
 			postType = ShowPost
-		case strings.HasPrefix(arg.Title, "Ask BH:"):
+		case strings.HasPrefix(arg.Title, "Ask Us:"):
 			postType = AskPost
+		case strings.HasSuffix(arg.Title, "?"):
+			postType = AskPost
+			arg.Title = "Ask Us: " + arg.Title
 		}
 	}
 

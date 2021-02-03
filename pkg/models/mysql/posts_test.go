@@ -171,12 +171,12 @@ func TestPost_GetIDFromURL(t *testing.T) {
 func TestPost_GetForTypeShow(t *testing.T) {
 	user := createRandomUser(t)
 	createTestPost(t, createTestPostArg{
-		title:   "Show BH: " + util.RandomString(10),
+		title:   "Show Us: " + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
 	})
 	createTestPost(t, createTestPostArg{
-		title:   "Show BH: " + util.RandomString(10),
+		title:   "Show Us:" + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
 	})
@@ -189,17 +189,17 @@ func TestPost_GetForTypeShow(t *testing.T) {
 func TestPost_GetForTypeAsk(t *testing.T) {
 	user := createRandomUser(t)
 	createTestPost(t, createTestPostArg{
-		title:   "Ask BH: " + util.RandomString(10),
+		title:   "Ask Us: " + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
 	})
 	createTestPost(t, createTestPostArg{
-		title:   "Ask BH: " + util.RandomString(10),
+		title:   "Ask Us:" + util.RandomString(10),
 		content: util.RandomString(200),
 		userID:  user.ID,
 	})
 	createTestPost(t, createTestPostArg{
-		title:   "Ask BH: " + util.RandomString(10),
+		title:   util.RandomString(10) + "?",
 		content: util.RandomString(200),
 		userID:  user.ID,
 	})
@@ -207,6 +207,7 @@ func TestPost_GetForTypeAsk(t *testing.T) {
 	askPosts, err := postModel.GetForType(user.ID, 0, mysql.AskPost)
 	require.NoError(t, err)
 	require.Equal(t, 3, len(askPosts))
+	require.True(t, strings.HasPrefix(askPosts[2].Title, "Ask Us: "))
 }
 
 func TestPost_Latest(t *testing.T) {
