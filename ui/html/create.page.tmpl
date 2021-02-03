@@ -9,7 +9,7 @@
     <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
     {{with .Form}}
       <table>
-        <script type="text/javascript">function tlen(el) { var n = el.value.length - 80; el.nextSibling.innerText = n > 0 ? n + ' too long' : ''; }</script>
+        <script type="text/javascript">function tlen(el) { var n = el.value.length - 100; el.nextSibling.innerText = n > 0 ? n + ' too long' : ''; }</script>
         <tr>
             <th>title</th>
             <td><input type="text" name="title" id="title" value="{{.Get "title"}}" size="50" oninput="tlen(this)" onfocus="tlen(this)"><span style="margin-left:10px">{{with .Errors.Get "title"}}{{.}}{{end}}</span></td>

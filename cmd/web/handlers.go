@@ -376,7 +376,7 @@ func (app *application) createPost(w http.ResponseWriter, r *http.Request) {
 
 	form := forms.New(r.PostForm)
 	form.Required("title")
-	form.MaxLength("title", 80)
+	form.MaxLength("title", 100)
 	if form.Get("url") == "" {
 		form.Required("text")
 	} else {
