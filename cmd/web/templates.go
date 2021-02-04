@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"text/template"
 	"time"
 
 	"github.com/bjarnemagnussen/go-hackernews/pkg/forms"
 	"github.com/bjarnemagnussen/go-hackernews/pkg/models"
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
 )
 
 type templateData struct {
@@ -62,6 +65,8 @@ var functions = template.FuncMap{
 		}
 		return false
 	},
+
+	"markDown": markDowner,
 
 	// humanDate converts the provided time.Time to a human-readable string.
 	"humanDate": humanDate,
@@ -138,4 +143,16 @@ func humanDate(t time.Time) string {
 	}
 
 	return t.UTC().Format("02 Jan 2006 at 15:04")
+}
+
+func markDowner(args ...interface{}) string {
+	// unsafe := blackfriday.Run([]byte(fmt.Sprintf("%s", args...)), blackfriday.WithExtensions(blackfriday.CommonExtensions))
+	unsafe := blackfriday.MarkdownCommon([]byte(fmt.Sprintf("%s", args...)))
+
+	// Preserve classes of fenced code blocks while using the bluemonday HTML sanitizer.
+	p := bluemonday.UGCPolicy()
+	p.AllowAttrs("class").Matching(regexp.MustCompile("^language-[a-zA-Z0-9]+$")).OnElements("code")
+	html := p.SanitizeBytes(unsafe)
+
+	return string(html)
 }

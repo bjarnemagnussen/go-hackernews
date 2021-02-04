@@ -8,8 +8,8 @@
             {{ end }}
             <span class="smaller">on: <a href="/items/{{.PostID}}">{{ .PostTitle }}</a></span>
             </div>
-            <div>
-              {{if .Deleted}}[deleted]{{else}}{{ .Content }}{{end}}
+            <div class="comment">
+              {{if .Deleted}}[deleted]{{else}}{{ .Content | markDown }}{{end}}
               {{/* DEBUG: <br/>ID: {{.ID}}<br/>Score: {{.Votes}}<br/>Level: {{.Level}}<br/>Leaf: {{.Leaf}} */}}
 
             <div>

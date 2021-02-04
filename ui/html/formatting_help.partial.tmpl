@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            {{/* <tr>
                 <td><pre># Heading level 1</pre></td>
                 <td><h3>Heading level 1</h3></td>
             </tr>
@@ -23,13 +23,15 @@
             <tr>
                 <td><pre>#### Heading level 4</pre></td>
                 <td><h6>Heading level 4</h6></td>
-            </tr>
+            </tr> */}}
             <tr>
-                <td><pre>
+                <td>
+                    <pre>
 * unordered item 1
 * unordered item 2
 * unordered item 3
-                </pre></td>
+                </pre>
+                </td>
                 <td>
                     <ul>
                         <li>unordered item 1</li>
@@ -39,11 +41,13 @@
                 </td>
             </tr>
             <tr>
-                <td><pre>
+                <td>
+                    <pre>
 1. ordered item 1
 2. ordered item 2
 3. ordered item 3
-                </pre></td>
+                </pre>
+                </td>
                 <td>
                     <ol>
                         <li>ordered item 1</li>
@@ -53,22 +57,78 @@
                 </td>
             </tr>
             <tr>
-                <td><pre>
+                <td>
+                    <pre>
 [title](https://www.google.com/)
-                </pre></td>
+                </pre>
+                </td>
                 <td>
                     <a href="#">title</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <pre>
+~~Strikethrough~~
+                </pre>
+                </td>
+                <td>
+                    <del>Strikethrough</del>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <pre>
+```
+a code block
+```
+                </pre>
+                </td>
+                <td>
+                    <pre><code>a code block</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <pre>
+Name    | Age
+--------|------
+Bob     | 27
+Alice   | 23
+                </pre>
+                </td>
+                <td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Bob</td>
+                                <td>27</td>
+                            </tr>
+
+                            <tr>
+                                <td>Alice</td>
+                                <td>23</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 <script>
-const helpElm = document.querySelector('.formatting-help');
-let helpClosed = true;
-window.toggleFormattingHelp = function() {
-    helpClosed = !helpClosed;
-    helpElm.className = 'formatting-help ' + (helpClosed ? 'closed' : '');
-};
+    const helpElm = document.querySelector('.formatting-help');
+    let helpClosed = true;
+    window.toggleFormattingHelp = function () {
+        helpClosed = !helpClosed;
+        helpElm.className = 'formatting-help ' + (helpClosed ? 'closed' : '');
+    };
 </script>
 {{end}}

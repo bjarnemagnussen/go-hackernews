@@ -76,6 +76,17 @@ nav button {
   cursor: pointer;
 }
 
+.comment-body h1,
+.comment-body h2,
+.comment-body h3,
+.comment-body h4,
+.comment-body h5,
+.comment-body h6 {
+  display: inline;
+  font-size: 1em;
+  font-weight: normal;
+}
+
 
 main {
   background-color: #FCF4E4;
@@ -298,5 +309,16 @@ div.arrow-up {
     border-style: solid;
     border-width: 0.6em 0.2em 0 0.2em;
     border-color: #646464 transparent transparent transparent;
+  }
+
+  .comment-body h1,
+  .comment-body h2,
+  .comment-body h3,
+  .comment-body h4,
+  .comment-body h5,
+  .comment-body h6 {
+    display: inline;
+    font-size: 1em;
+    font-weight: normal;
   }
 }
