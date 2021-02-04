@@ -61,7 +61,14 @@
             <tr style="height:6px"></tr>
             <tr>
                 <td colspan="2"></td>
-                <td>There is nothing to see here...</td>
+                <td>
+                    There is nothing to see here...
+                    {{if is .Page "ask"}}
+                    You can <a href="/submit">submit</a> a new question (starting with "Ask Us:") to be the first posted question here!
+                    {{else if is .Page "show"}}
+                    Read the rules about "Show Us" to <a href="/submit">submit</a> first project story to appear here!
+                    {{end}}
+                </td>
             </tr>
     {{end}}
         </table>
