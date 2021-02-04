@@ -83,7 +83,7 @@ func (app *application) routes() http.Handler {
 	router.Get("/guidelines", dynamicMiddleware.ThenFunc(app.guidelines))
 	router.Get("/acknowledgements", dynamicMiddleware.ThenFunc(app.acknowledgements))
 	router.Get("/faq", dynamicMiddleware.ThenFunc(app.faq))
-	router.Get("/show-rules", dynamicMiddleware.ThenFunc(app.showUsRules))
+	router.Get("/show-us-rules", dynamicMiddleware.ThenFunc(app.showUsRules))
 
 	return standardMiddleware.Then(router)
 }
