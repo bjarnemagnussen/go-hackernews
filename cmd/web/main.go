@@ -2,10 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 	"time"
 
 	"github.com/bjarnemagnussen/go-hackernews/pkg/models"

@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"path/filepath"
 	"regexp"
 	"strings"
-	"text/template"
 	"time"
 
 	"github.com/bjarnemagnussen/go-hackernews/pkg/forms"
@@ -145,7 +145,7 @@ func humanDate(t time.Time) string {
 	return t.UTC().Format("02 Jan 2006 at 15:04")
 }
 
-func markDowner(args ...interface{}) string {
+func markDowner(args ...interface{}) template.HTML {
 	// unsafe := blackfriday.Run([]byte(fmt.Sprintf("%s", args...)), blackfriday.WithExtensions(blackfriday.CommonExtensions))
 	unsafe := blackfriday.MarkdownCommon([]byte(fmt.Sprintf("%s", args...)))
 
@@ -154,5 +154,5 @@ func markDowner(args ...interface{}) string {
 	p.AllowAttrs("class").Matching(regexp.MustCompile("^language-[a-zA-Z0-9]+$")).OnElements("code")
 	html := p.SanitizeBytes(unsafe)
 
-	return string(html)
+	return template.HTML(html)
 }
