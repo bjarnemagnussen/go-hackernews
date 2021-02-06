@@ -12,7 +12,7 @@
     <span class="title"><a href="/items/{{.ID}}">{{.Title}}</a></span>
     {{if .Content.Valid}}
     {{/* Make sure we only add content to `Post` if we want it displayed. */}}
-    <p>{{.Content.String}}</p>
+    <p>{{.Content.String | markDown}}</p>
     {{end}}
   </div>
 </td>
