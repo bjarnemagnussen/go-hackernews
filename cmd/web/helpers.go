@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"net/http"
 	"runtime/debug"
 
@@ -72,7 +73,7 @@ func (app *application) addDefaultData(td *templateData, r *http.Request) *templ
 	td.SiteShort = app.config.Template.SiteShort
 	td.Generator = app.config.Template.Generator
 	td.ThemeColor = app.config.Template.ThemeColor
-	td.FooterText = app.config.Template.FooterText
+	td.FooterText = template.HTML(app.config.Template.FooterText)
 
 	return td
 }

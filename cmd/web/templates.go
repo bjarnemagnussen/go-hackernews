@@ -35,7 +35,7 @@ type templateData struct {
 	SiteShort  string
 	Generator  string
 	ThemeColor string
-	FooterText string
+	FooterText template.HTML
 }
 
 var functions = template.FuncMap{
